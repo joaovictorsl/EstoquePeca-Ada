@@ -12,7 +12,7 @@ val estoque = Estoque()
 
 fun main() {
     while (true) {
-        var input = getUserInput(
+        val input = getUserInput(
             prompt = {println(menu)},
             isInputValid = { input -> checkIfInputInRange(input, 0..4)})
 
@@ -21,7 +21,7 @@ fun main() {
             "2" -> handleEditItem()
             "3" -> handleShowAvailableItems()
             "4" -> handleShowAllItems()
-            else -> {
+            "0" -> {
                 println("Tchau tchau :)")
                 exitProcess(0)
             }
@@ -30,10 +30,10 @@ fun main() {
 }
 
 fun handleAddItem() {
-        val nome = getUserInput(prompt = { println("Digite o nome da peça:")}, isInputValid = { it.isNotBlank() && it.isNotEmpty()})
+        val nome = getUserInput(prompt = { println("Digite o nome da peça:")}, isInputValid = { it.isNotBlank() and it.isNotEmpty()})
         val quantidade = getUserInput(
             prompt = { println("Digite a quantidade disponível da peça:")},
-            isInputValid = { it.isNotBlank() && it.isNotEmpty() && checkIfInputInRange(it, 0..999)},
+            isInputValid = { it.isNotBlank() and it.isNotEmpty() and checkIfInputInRange(it, 0..999)},
             errorMsg = "Apenas valores de 0 até 999 são válidos para quantidade de itens.")
 
         try {
@@ -47,9 +47,9 @@ fun handleAddItem() {
 
 fun handleEditItem() {
     if (!emptyEstoque()) {
-        val selectedItem = getUserInput({ println("Escolha a peça para ser editada: \n${estoque.toString()}")}, {it.isNotBlank() && it.isNotEmpty() && checkIfInputInRange(it, 1..estoque.size())})
-        val nome = getUserInput({ println("Digite o novo nome da peça:")}, { it.isNotBlank() && it.isNotEmpty()})
-        val quantidade = getUserInput({ println("Digite a nova quantidade disponível da peça:")}, { it.isNotBlank() && it.isNotEmpty() && checkIfInputInRange(it, 0..999)})
+        val selectedItem = getUserInput({ println("Escolha a peça para ser editada: \n${estoque.toString()}")}, {it.isNotBlank() and it.isNotEmpty() and checkIfInputInRange(it, 1..estoque.size())})
+        val nome = getUserInput({ println("Digite o novo nome da peça:")}, { it.isNotBlank() and it.isNotEmpty()})
+        val quantidade = getUserInput({ println("Digite a nova quantidade disponível da peça:")}, { it.isNotBlank() and it.isNotEmpty() and checkIfInputInRange(it, 0..999)})
 
         try {
             estoque.set(selectedItem, nome, quantidade.toInt())
